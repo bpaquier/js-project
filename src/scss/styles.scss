@@ -1,2 +1,8 @@
-@import "global/reset.scss";
+@import 'global/reset.scss';
+@import 'global/fonts.scss';
+@import 'global/variables.scss';
 /*IMPORT ALL YOUR STYLES SHEETS HERE*/
+
+.hello-world {
+  font-family: $primary-font;
+}
