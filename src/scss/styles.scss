@@ -1,6 +1,10 @@
 @import 'global/reset.scss';
 @import 'global/fonts.scss';
 @import 'global/variables.scss';
+@import 'global/body.scss';
+
+@import 'header/header.scss';
+@import 'container/container.scss';
 /*IMPORT ALL YOUR STYLES SHEETS HERE*/
 
 .hello-world {
