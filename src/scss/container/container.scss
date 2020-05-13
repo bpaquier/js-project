@@ -1,24 +1,30 @@
 .container {
+  width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 
 .container__image {
+  margin-top: 60px;
   width: 100%;
-}
-
-.image {
-  width: 100%;
-  max-height: 500px;
+  height: 40vw;
+  max-height: 550px;
+  background-size: 100% auto;
+  background-repeat: no-repeat;
 }
 
 .container__title {
-  width: 80%;
-  background-color: $dark-color-opacity;
-
+  align-self: flex-end;
+  margin-right: 5%;
+  width: 40%;
+  background-color: $light-color;
   padding: 30px;
-  font-size: 3rem;
+  font-size: 1rem;
   transform: translateY(-50%);
-  color: $light-color;
+  color: $dark-color;
+
+  @include medium {
+    font-size: 2rem;
+  }
 }
