@@ -1,3 +1,6 @@
+import { app } from './app';
+import { particles } from './particles';
+
 document.addEventListener('DOMContentLoaded', () => {
   const img1 = require('../static/img/main_home.jpg');
   const img2 = require('../static/img/main_spots.jpg');
@@ -11,7 +14,7 @@ document.addEventListener('DOMContentLoaded', () => {
           let scrollTop = e.target.scrollingElement.scrollTop;
 
           document.querySelector('.parallax').style.backgroundPositionY = `${
-            scrollTop / 5
+            scrollTop / 2
           }px`;
         });
       }),
@@ -107,6 +110,10 @@ document.addEventListener('DOMContentLoaded', () => {
       const $heroHeader = document.createElement('div');
       $heroHeader.classList.add('container__heroHeader');
 
+      const headerBackground = document.createElement('div');
+      headerBackground.classList.add('header__background');
+      headerBackground.setAttribute('id', 'particles-js');
+
       const $heroHeaderpicture = document.createElement('div');
       $heroHeaderpicture.classList.add('heroHeader__picture');
       $heroHeaderpicture.classList.add('parallax');
@@ -116,6 +123,7 @@ document.addEventListener('DOMContentLoaded', () => {
       $heroHeaderTitle.classList.add('heroHeader__title');
       $heroHeaderTitle.textContent = option.title;
 
+      $heroHeader.appendChild(headerBackground);
       $heroHeader.appendChild($heroHeaderpicture);
       $heroHeader.appendChild($heroHeaderTitle);
       fragment.appendChild($heroHeader);
@@ -147,6 +155,8 @@ document.addEventListener('DOMContentLoaded', () => {
     if (typeof currentPage.dynamisme === 'function') {
       render.run(currentPage.dynamisme);
     }
+    particles();
+    app();
   }
 
   window.addEventListener('hashchange', () => {

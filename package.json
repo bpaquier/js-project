@@ -13,5 +13,9 @@
   "devDependencies": {
     "parcel-bundler": "^1.12.4",
     "sass": "^1.26.5"
+  },
+  "dependencies": {
+    "particles.js": "^2.0.0",
+    "test.js": "^1.0.0"
   }
 }
