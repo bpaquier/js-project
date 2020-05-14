@@ -6,33 +6,41 @@ document.addEventListener('DOMContentLoaded', () => {
   // Model qui permet de récupérer la data
   class Model {
     constructor() {
-      this.pages = [
-        {
-          url: '#',
-          documentTitle: 'Homepage',
-          imgSrc: img1,
-          title: 'Acceuil',
-          content: `
-            <div>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptate suscipit nihil dolores repellendus alias illum vitae. Et unde enim ducimus, exercitationem dolorum, eum omnis autem, quasi ipsa a illum animi.
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptate suscipit nihil dolores repellendus alias illum vitae. Et unde enim ducimus, exercitationem dolorum, eum omnis autem, quasi ipsa a illum animi.
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptate suscipit nihil dolores repellendus alias illum vitae. Et unde enim ducimus, exercitationem dolorum, eum omnis autem, quasi ipsa a illum animi.
-            </div>
-          `,
-        },
-        {
-          url: '#spots',
-          documentTitle: 'All spots',
-          imgSrc: img2,
-          title: 'Spots map',
-        },
-        {
-          url: '#news',
-          documentTitle: 'News',
-          imgSrc: img3,
-          title: 'News',
-        },
-      ];
+      (this.scrollParallax = () => {
+        window.addEventListener('scroll', (e) => {
+          let scrollTop = e.target.scrollingElement.scrollTop;
+
+          document.querySelector('.parallax').style.backgroundPositionY = `${
+            scrollTop / 5
+          }px`;
+        });
+      }),
+        (this.pages = [
+          {
+            url: '#',
+            documentTitle: 'Homepage',
+            imgSrc: img1,
+            title: 'Acceuil',
+            content: `<div></div>`,
+            dynamisme: this.scrollParallax,
+          },
+          {
+            url: '#spots',
+            documentTitle: 'All spots',
+            imgSrc: img2,
+            title: 'Spots map',
+            content: `<div></div>`,
+            dynamisme: this.scrollParallax,
+          },
+          {
+            url: '#news',
+            documentTitle: 'News',
+            imgSrc: img3,
+            title: 'News',
+            content: `<div></div>`,
+            dynamisme: this.scrollParallax,
+          },
+        ]);
     }
 
     getPageByUrl(url) {
@@ -46,6 +54,10 @@ document.addEventListener('DOMContentLoaded', () => {
       this.container = document.querySelector('.container');
       this.container.innerHTML = '';
       this.addHeader(pages);
+    }
+
+    changedocumentTile(option) {
+      document.title = option;
     }
 
     addHeader(pages) {
@@ -88,30 +100,30 @@ document.addEventListener('DOMContentLoaded', () => {
       fragment.appendChild($content);
       this.container.appendChild(fragment);
     }
-    changedocumentTile(option) {
-      document.title = option;
-    }
 
-    setBackgroungImage(option) {
+    setHeroHeader(option) {
       const fragment = document.createDocumentFragment();
 
-      const $imageContainer = document.createElement('div');
-      $imageContainer.classList.add('container__image');
-      $imageContainer.style.backgroundImage = `url(${option})`;
+      const $heroHeader = document.createElement('div');
+      $heroHeader.classList.add('container__heroHeader');
 
-      fragment.appendChild($imageContainer);
+      const $heroHeaderpicture = document.createElement('div');
+      $heroHeaderpicture.classList.add('heroHeader__picture');
+      $heroHeaderpicture.classList.add('parallax');
+      $heroHeaderpicture.style.backgroundImage = `url(${option.img})`;
+
+      const $heroHeaderTitle = document.createElement('h1');
+      $heroHeaderTitle.classList.add('heroHeader__title');
+      $heroHeaderTitle.textContent = option.title;
+
+      $heroHeader.appendChild($heroHeaderpicture);
+      $heroHeader.appendChild($heroHeaderTitle);
+      fragment.appendChild($heroHeader);
       this.container.appendChild(fragment);
     }
 
-    setMainTitle(option) {
-      const fragment = document.createDocumentFragment();
-
-      const $mainTitle = document.createElement('h1');
-      $mainTitle.classList.add('container__title');
-      $mainTitle.textContent = option;
-
-      fragment.appendChild($mainTitle);
-      this.container.appendChild(fragment);
+    run(dynamisme) {
+      dynamisme();
     }
   }
 
@@ -123,11 +135,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const render = new View(data.pages);
     render.changedocumentTile(currentPage.documentTitle);
-    render.setBackgroungImage(currentPage.imgSrc);
-    render.setMainTitle(currentPage.title);
+    render.setHeroHeader({
+      img: currentPage.imgSrc,
+      title: currentPage.title,
+    });
 
     if (currentPage.content) {
       render.addContent(currentPage.content);
+    }
+
+    if (typeof currentPage.dynamisme === 'function') {
+      render.run(currentPage.dynamisme);
     }
   }
 
