@@ -1,10 +1,9 @@
-import { app } from './app';
-import { particles } from './particles';
+import { app } from './particles/app';
+import { particles } from './particles/particles';
 
 document.addEventListener('DOMContentLoaded', () => {
-  const img1 = require('../static/img/main_home.jpg');
-  const img2 = require('../static/img/main_spots.jpg');
-  const img3 = require('../static/img/main_news.jpg');
+  const herobackgoundImageHome = require('../static/img/hero-background-home.jpg');
+  const herobackgoundImageSpots = require('../static/img/hero-background-spots.jpg');
 
   // Model qui permet de récupérer la data
   class Model {
@@ -22,15 +21,15 @@ document.addEventListener('DOMContentLoaded', () => {
           {
             url: '#',
             documentTitle: 'Homepage',
-            imgSrc: img1,
+            imgSrc: herobackgoundImageHome,
             title: 'Acceuil',
             content: `<div></div>`,
             dynamisme: this.scrollParallax,
           },
           {
             url: '#spots',
-            documentTitle: 'All spots',
-            imgSrc: img2,
+            documentTitle: 'All-spots',
+            imgSrc: herobackgoundImageSpots,
             title: 'Spots map',
             content: `<div></div>`,
             dynamisme: this.scrollParallax,
@@ -38,7 +37,7 @@ document.addEventListener('DOMContentLoaded', () => {
           {
             url: '#news',
             documentTitle: 'News',
-            imgSrc: img3,
+            imgSrc: herobackgoundImageSpots,
             title: 'News',
             content: `<div></div>`,
             dynamisme: this.scrollParallax,
@@ -53,17 +52,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // View qui permet de modifier le template html
   class View {
-    constructor(pages) {
+    constructor(pages, currentPage) {
       this.container = document.querySelector('.container');
       this.container.innerHTML = '';
-      this.addHeader(pages);
+      this.addHeader(pages, currentPage);
     }
 
     changedocumentTile(option) {
       document.title = option;
     }
 
-    addHeader(pages) {
+    addHeader(pages, currentPage) {
       const fragment = document.createDocumentFragment();
 
       const $header = document.createElement('header');
@@ -71,6 +70,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
       const $ulElt = document.createElement('ul');
       $ulElt.classList.add('header__nav');
+      $ulElt.classList.add(currentPage.documentTitle);
 
       const $title = document.createElement('p');
       $title.classList.add('header__title');
@@ -78,13 +78,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
       pages.forEach((page) => {
         const $liElt = document.createElement('li');
-        const $button = document.createElement('div');
-        $button.innerText = page.title;
-        $button.addEventListener('click', () => {
+        $liElt.innerText = page.title;
+        $liElt.addEventListener('click', () => {
           location.hash = page.url;
         });
-
-        $liElt.appendChild($button);
         $ulElt.appendChild($liElt);
       });
 
@@ -109,23 +106,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
       const $heroHeader = document.createElement('div');
       $heroHeader.classList.add('container__heroHeader');
+      $heroHeader.classList.add('parallax');
+      $heroHeader.style.backgroundImage = `url(${option.img})`;
 
-      const headerBackground = document.createElement('div');
-      headerBackground.classList.add('header__background');
-      headerBackground.setAttribute('id', 'particles-js');
+      const $heroParticles = document.createElement('div');
+      $heroParticles.setAttribute('id', 'particles-js');
 
-      const $heroHeaderpicture = document.createElement('div');
-      $heroHeaderpicture.classList.add('heroHeader__picture');
-      $heroHeaderpicture.classList.add('parallax');
-      $heroHeaderpicture.style.backgroundImage = `url(${option.img})`;
-
-      const $heroHeaderTitle = document.createElement('h1');
-      $heroHeaderTitle.classList.add('heroHeader__title');
-      $heroHeaderTitle.textContent = option.title;
-
-      $heroHeader.appendChild(headerBackground);
-      $heroHeader.appendChild($heroHeaderpicture);
-      $heroHeader.appendChild($heroHeaderTitle);
+      $heroHeader.appendChild($heroParticles);
       fragment.appendChild($heroHeader);
       this.container.appendChild(fragment);
     }
@@ -141,7 +128,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const currentPage = data.getPageByUrl(location.hash || '#');
 
-    const render = new View(data.pages);
+    const render = new View(data.pages, currentPage);
     render.changedocumentTile(currentPage.documentTitle);
     render.setHeroHeader({
       img: currentPage.imgSrc,

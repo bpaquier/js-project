@@ -17,7 +17,7 @@ export const app = () => {
     {
       particles: {
         number: {
-          value: 80,
+          value: 123,
           density: {
             enable: true,
             value_area: 800,
@@ -33,7 +33,7 @@ export const app = () => {
             color: '#000000',
           },
           polygon: {
-            nb_sides: 5,
+            nb_sides: 3,
           },
           image: {
             src: 'img/github.svg',
@@ -42,7 +42,7 @@ export const app = () => {
           },
         },
         opacity: {
-          value: 0.5,
+          value: 1,
           random: false,
           anim: {
             enable: false,
@@ -52,7 +52,7 @@ export const app = () => {
           },
         },
         size: {
-          value: 3,
+          value: 0,
           random: true,
           anim: {
             enable: false,
@@ -63,10 +63,10 @@ export const app = () => {
         },
         line_linked: {
           enable: true,
-          distance: 150,
+          distance: 192.40944730386272,
           color: '#ffffff',
-          opacity: 0.4,
-          width: 1,
+          opacity: 0.9941154777366241,
+          width: 0.32068241217310456,
         },
         move: {
           enable: true,
@@ -84,7 +84,7 @@ export const app = () => {
         },
       },
       interactivity: {
-        detect_on: 'canvas',
+        detect_on: 'window',
         events: {
           onhover: {
             enable: true,
@@ -92,7 +92,7 @@ export const app = () => {
           },
           onclick: {
             enable: true,
-            mode: 'push',
+            mode: 'bubble',
           },
           resize: true,
         },
