@@ -1,6 +1,7 @@
-# js-project
+# Home made framework using MVC model
 
 intsall npm
-use npm run dev
+
+npm run dev
 
 or buil with npm run build
